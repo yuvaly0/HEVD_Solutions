@@ -1,7 +1,0 @@
-﻿  BufferOverflow.cpp
-C:\Users\yuvalyo\source\repos\HEVD_Solutions\HEVD_Solutions\BufferOverflow.cpp(12,10): warning C4477: 'wprintf' : format string '%x' requires an argument of type 'unsigned int', but variadic argument 1 has type 'HANDLE'
-C:\Users\yuvalyo\source\repos\HEVD_Solutions\HEVD_Solutions\BufferOverflow.cpp(27,66): warning C4244: '=': conversion from 'DWORD' to 'UCHAR', possible loss of data
-  main.cpp
-  Generating Code...
-C:\Users\yuvalyo\source\repos\HEVD_Solutions\HEVD_Solutions\BufferOverflow.cpp(51): warning C4715: 'Solutions::TriggerStackBufferOverflow': not all control paths return a value
-  HEVD_Solutions.vcxproj -> C:\Users\yuvalyo\source\repos\HEVD_Solutions\Debug\HEVD_Solutions.exe
