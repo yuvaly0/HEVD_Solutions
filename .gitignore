@@ -1,4 +1,5 @@
-./Debug
-./Release
-./HEVD_Solutions/Debug
-./HEVD_Solutions/Release
+./Debug/
+./Release/
+./HEVD_Solutions/Debug/
+./HEVD_Solutions/Release/
+.vs/
