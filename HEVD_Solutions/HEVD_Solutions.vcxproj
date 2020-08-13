@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="IntegerOverflow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="BufferOverflow.cpp" />
     <ClCompile Include="TokenStealingShellcode.cpp" />
