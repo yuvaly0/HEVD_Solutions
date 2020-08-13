@@ -138,12 +138,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="IntegerOverflow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="BufferOverflow.cpp" />
     <ClCompile Include="TokenStealingShellcode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ioctal_codes.h" />
+    <ClInclude Include="random_str.h" />
     <ClInclude Include="Solutions.h" />
     <ClInclude Include="TokenStealingShellcode.h" />
   </ItemGroup>

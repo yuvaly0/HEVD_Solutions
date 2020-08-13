@@ -24,6 +24,9 @@
     <ClCompile Include="BufferOverflow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IntegerOverflow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ioctal_codes.h">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TokenStealingShellcode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="random_str.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

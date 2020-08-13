@@ -23,7 +23,7 @@ int main()
 	}
 
 	Solutions* solutions = new Solutions(hDeviceHandle);
-	DWORD res = solutions->TriggerStackBufferOverflow();
+	DWORD res = solutions->TriggerIntegerOverflow();
 
 	return res;
 }
