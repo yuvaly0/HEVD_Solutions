@@ -145,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ioctal_codes.h" />
+    <ClInclude Include="random_str.h" />
     <ClInclude Include="Solutions.h" />
     <ClInclude Include="TokenStealingShellcode.h" />
   </ItemGroup>
