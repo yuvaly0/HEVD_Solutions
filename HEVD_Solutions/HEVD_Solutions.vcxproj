@@ -142,6 +142,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="BufferOverflow.cpp" />
     <ClCompile Include="TokenStealingShellcode.cpp" />
+    <ClCompile Include="WriteWhatWhere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ioctal_codes.h" />
