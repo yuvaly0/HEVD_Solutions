@@ -7,6 +7,8 @@ class Solutions {
 		}
 
 		DWORD TriggerStackBufferOverflow();
+		DWORD TriggerIntegerOverflow();
+		DWORD TriggerWriteWhatWhere();
 
 	private:
 		HANDLE _hDeviceHandle;
