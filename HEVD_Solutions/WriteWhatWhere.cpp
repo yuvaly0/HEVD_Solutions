@@ -58,7 +58,6 @@ DWORD Solutions::TriggerWriteWhatWhere() {
 
 	if (!lpInBuffer) {
 		wprintf(L"[-] Could not allocate buffer :(\n");
-		CloseHandle(_hDeviceHandle);
 		return 1;
 	}
 
@@ -71,7 +70,6 @@ DWORD Solutions::TriggerWriteWhatWhere() {
 						NULL, NULL, &dwBytesReturned, NULL)) {
 		wprintf(L"[-] Could not interact with the driver :(\n");
 		HeapFree(GetProcessHeap(), NULL, lpInBuffer);
-		CloseHandle(_hDeviceHandle);
 		return 1;
 	}
 
