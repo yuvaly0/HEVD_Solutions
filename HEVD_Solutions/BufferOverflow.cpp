@@ -16,7 +16,6 @@ DWORD Solutions::TriggerStackBufferOverflow() {
 	if (!lpInBuffer) {
 		wprintf(L"[!] Failed to allocate memory. %x\n", GetLastError());
 		HeapFree(GetProcessHeap(), 0, (LPVOID)lpInBuffer);
-		CloseHandle(_hDeviceHandle);
 		return 1;
 	}
 
@@ -38,7 +37,6 @@ DWORD Solutions::TriggerStackBufferOverflow() {
 	{
 		wprintf(L"[-] ERROR: %d - could not talk with the driver\n", GetLastError());
 		HeapFree(GetProcessHeap(), 0, (LPVOID)lpInBuffer);
-		CloseHandle(_hDeviceHandle);
 		return 1;
 	}
 
@@ -47,5 +45,4 @@ DWORD Solutions::TriggerStackBufferOverflow() {
 	system("cmd.exe");
 
 	HeapFree(GetProcessHeap(), 0, (LPVOID)lpInBuffer);
-	CloseHandle(_hDeviceHandle);
 }
