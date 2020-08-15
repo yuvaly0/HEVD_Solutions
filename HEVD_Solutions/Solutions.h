@@ -14,6 +14,7 @@ class Solutions {
 		DWORD TriggerIntegerOverflow();
 		DWORD TriggerWriteWhatWhere();
 		DWORD TriggerNullPointerDereference();
+		DWORD TriggerUAF();
 
 	private:
 		HANDLE _hDeviceHandle;

@@ -23,7 +23,7 @@ int main()
 	}
 
 	Solutions* solutions = new Solutions(hDeviceHandle);
-	DWORD res = solutions->TriggerNullPointerDereference();
+	DWORD res = solutions->TriggerUAF();
 
 	return res;
 }
