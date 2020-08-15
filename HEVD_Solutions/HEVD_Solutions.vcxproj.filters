@@ -36,6 +36,9 @@
     <ClCompile Include="NullPointerDereference.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UAFNonPagedPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ioctal_codes.h">
