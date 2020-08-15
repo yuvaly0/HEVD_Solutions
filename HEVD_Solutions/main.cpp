@@ -23,7 +23,7 @@ int main()
 	}
 
 	Solutions* solutions = new Solutions(hDeviceHandle);
-	DWORD res = solutions->TriggerWriteWhatWhere();
+	DWORD res = solutions->TriggerNullPointerDereference();
 
 	return res;
 }
