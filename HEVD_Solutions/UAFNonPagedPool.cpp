@@ -4,7 +4,7 @@
 
 #include "Solutions.h"
 #include "ioctal_codes.h"
-#include "TokenStealingShellcode.h"
+#include "utils.h"
 
 enum class Commands {
 	AllocateUAFObject,

@@ -3,7 +3,7 @@
 #include "string.h"
 #include "Solutions.h"
 #include "ioctal_codes.h"
-#include "TokenStealingShellcode.h"
+#include "utils.h"
 
 typedef enum _SYSTEM_INFORMATION_CLASS {
 	SystemModuleInformation = 11,

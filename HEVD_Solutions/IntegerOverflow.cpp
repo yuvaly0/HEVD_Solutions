@@ -3,7 +3,7 @@
 #include "ioctal_codes.h"
 #include "stdio.h"
 #include "random_str.h"
-#include "TokenStealingShellcode.h"
+#include "utils.h"
 
 NTSTATUS Solutions::TriggerIntegerOverflow() {
 	DWORD dwBufSize = 0x828;
