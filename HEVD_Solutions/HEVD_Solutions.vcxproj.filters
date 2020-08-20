@@ -16,6 +16,9 @@
     <Filter Include="Header Files\utils">
       <UniqueIdentifier>{3fee5b1e-2a6f-44c7-8520-90dd04b694a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\utils">
+      <UniqueIdentifier>{651f9bcb-f847-4247-97c9-9056b9e998bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,6 +42,12 @@
     <ClCompile Include="UAFNonPagedPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NonPagedPoolOverflow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AllocateNullPage.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ioctal_codes.h">
@@ -50,7 +59,7 @@
     <ClInclude Include="random_str.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
-    <ClInclude Include="TokenStealingShellcode.h">
+    <ClInclude Include="utils.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
   </ItemGroup>

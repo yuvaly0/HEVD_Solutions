@@ -1,5 +1,4 @@
-#include "TokenStealingShellcode.h"
-#include "stdio.h"
+#include "utils.h"
 
 #define KTHREAD_OFFSET  0x124
 #define EPROCESS_OFFSET 0x50
