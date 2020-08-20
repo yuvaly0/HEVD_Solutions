@@ -10,12 +10,12 @@ class Solutions {
 			CloseHandle(_hDeviceHandle);
 		}
 
-		DWORD TriggerStackBufferOverflow();
-		DWORD TriggerIntegerOverflow();
-		DWORD TriggerWriteWhatWhere();
-		DWORD TriggerNullPointerDereference();
-		DWORD TriggerUAF();
-		DWORD TriggerNonPagedPoolOverflow();
+		NTSTATUS TriggerStackBufferOverflow();
+		NTSTATUS TriggerIntegerOverflow();
+		NTSTATUS TriggerWriteWhatWhere();
+		NTSTATUS TriggerNullPointerDereference();
+		NTSTATUS TriggerUAF();
+		NTSTATUS TriggerNonPagedPoolOverflow();
 
 	private:
 		HANDLE _hDeviceHandle;

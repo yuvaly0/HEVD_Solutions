@@ -5,7 +5,7 @@
 #include "random_str.h"
 #include "TokenStealingShellcode.h"
 
-DWORD Solutions::TriggerIntegerOverflow() {
+NTSTATUS Solutions::TriggerIntegerOverflow() {
 	DWORD dwBufSize = 0x828;
 	DWORD lTerminatorValue = 0xBAD0B0B0;
 	PUCHAR lpInBuffer = NULL;

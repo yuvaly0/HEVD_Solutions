@@ -3,7 +3,7 @@
 #include "TokenStealingShellcode.h"
 #include <stdio.h>
 
-DWORD Solutions::TriggerStackBufferOverflow() {
+NTSTATUS Solutions::TriggerStackBufferOverflow() {
 	DWORD dwBufSize = 0x820 + sizeof(DWORD);
 	PUCHAR lpInBuffer = NULL;
 	DWORD dwIoctl = IOCTL_STACK_OVERFLOW;

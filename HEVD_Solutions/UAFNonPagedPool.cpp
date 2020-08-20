@@ -27,7 +27,7 @@ NTSTATUS Command(HANDLE deviceHandle, Commands operate);
 NTSTATUS SprayHeap();
 DWORD getIoctl(Commands operate);
 
-DWORD Solutions::TriggerUAF() {
+NTSTATUS Solutions::TriggerUAF() {
 	
 	// allocate 
 	// free
@@ -80,7 +80,7 @@ DWORD Solutions::TriggerUAF() {
 	return 0;
 }
 
-NTSTATUS Command(HANDLE deviceHandle, Commands operate) {
+static NTSTATUS Command(HANDLE deviceHandle, Commands operate) {
 	
 	DWORD dwBytesReturned = 0;
 	return
@@ -131,7 +131,7 @@ static NTSTATUS SprayHeap() {
 	return 0; // STATUS_SUCCESS
 }
 
-DWORD getIoctl(Commands operate) {
+static DWORD getIoctl(Commands operate) {
 	switch (operate) {
 	case Commands::AllocateUAFObject:
 		return IOCTL_ALLOCATE_UAF_OBJECT_NON_PAGED;
