@@ -28,7 +28,7 @@ NTSTATUS AllocateNullPage(DWORD dwRegionSize) {
 											MEM_COMMIT | MEM_RESERVE,
 											PAGE_EXECUTE_READWRITE);
 	if (res != 0) {
-		wprintf(L"[-] Could not allocate null page - %d\n", res);
+		std::cout << "[-] Could not allocate null page - " << GetLastError() << std::endl;
 		return res;
 	}
 

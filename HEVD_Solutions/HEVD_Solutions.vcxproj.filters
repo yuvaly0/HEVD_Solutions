@@ -59,9 +59,6 @@
     <ClInclude Include="random_str.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
-    <ClInclude Include="TokenStealingShellcode.h">
-      <Filter>Header Files\utils</Filter>
-    </ClInclude>
     <ClInclude Include="utils.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
