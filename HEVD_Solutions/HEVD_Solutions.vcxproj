@@ -142,6 +142,7 @@
     <ClCompile Include="IntegerOverflow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="BufferOverflow.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NonPagedPoolOverflow.cpp" />
     <ClCompile Include="NullPointerDereference.cpp" />
     <ClCompile Include="TokenStealingShellcode.cpp" />

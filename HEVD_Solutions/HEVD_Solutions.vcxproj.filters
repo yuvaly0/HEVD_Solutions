@@ -19,34 +19,40 @@
     <Filter Include="Source Files\utils">
       <UniqueIdentifier>{651f9bcb-f847-4247-97c9-9056b9e998bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\exploits">
+      <UniqueIdentifier>{bc98d808-ade3-4068-a849-4ccd53d3352c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TokenStealingShellcode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BufferOverflow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IntegerOverflow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WriteWhatWhere.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NullPointerDereference.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UAFNonPagedPool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NonPagedPoolOverflow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AllocateNullPage.cpp">
       <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="TokenStealingShellcode.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferOverflow.cpp">
+      <Filter>Source Files\exploits</Filter>
+    </ClCompile>
+    <ClCompile Include="IntegerOverflow.cpp">
+      <Filter>Source Files\exploits</Filter>
+    </ClCompile>
+    <ClCompile Include="NonPagedPoolOverflow.cpp">
+      <Filter>Source Files\exploits</Filter>
+    </ClCompile>
+    <ClCompile Include="NullPointerDereference.cpp">
+      <Filter>Source Files\exploits</Filter>
+    </ClCompile>
+    <ClCompile Include="UAFNonPagedPool.cpp">
+      <Filter>Source Files\exploits</Filter>
+    </ClCompile>
+    <ClCompile Include="WriteWhatWhere.cpp">
+      <Filter>Source Files\exploits</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

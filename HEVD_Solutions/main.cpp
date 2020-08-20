@@ -5,6 +5,9 @@
 #include "utils.h"
 #include "Solutions.h"
 
+#define MAX_CHOICE 6
+#define MIN_CHOICE 1
+
 using namespace std;
 
 int main()
@@ -23,9 +26,13 @@ int main()
 		cout << "[-] ERROR: invalid handle" << endl;
 		return 1;
 	}
+	
+	printMenu();
+	int choice = GetUserChoice();
+	if (choice > MAX_CHOICE || choice < MIN_CHOICE) {
+		return 1;
+	}
 
 	Solutions* solutions = new Solutions(hDeviceHandle);
-	DWORD res = solutions->TriggerNullPointerDereference();
-
-	return res;
+	return solutions->TriggerExploit(choice);
 }
