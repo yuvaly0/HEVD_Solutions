@@ -1,8 +1,11 @@
 #include <Windows.h>
-#include <stdio.h>
+#include <iostream>
+
 #include "ioctal_codes.h"
-#include "TokenStealingShellcode.h"
+#include "utils.h"
 #include "Solutions.h"
+
+using namespace std;
 
 int main()
 {
@@ -17,13 +20,12 @@ int main()
 		NULL);
 
 	if (hDeviceHandle == INVALID_HANDLE_VALUE) {
-		printf("[-] ERROR: invalid handle\n");
-		system("pause");
+		cout << "[-] ERROR: invalid handle" << endl;
 		return 1;
 	}
 
 	Solutions* solutions = new Solutions(hDeviceHandle);
-	DWORD res = solutions->TriggerUAF();
+	DWORD res = solutions->TriggerNullPointerDereference();
 
 	return res;
 }
