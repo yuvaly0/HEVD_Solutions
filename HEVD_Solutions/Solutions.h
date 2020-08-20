@@ -15,6 +15,7 @@ class Solutions {
 		DWORD TriggerWriteWhatWhere();
 		DWORD TriggerNullPointerDereference();
 		DWORD TriggerUAF();
+		DWORD TriggerNonPagedPoolOverflow();
 
 	private:
 		HANDLE _hDeviceHandle;

@@ -18,12 +18,11 @@ int main()
 
 	if (hDeviceHandle == INVALID_HANDLE_VALUE) {
 		printf("[-] ERROR: invalid handle\n");
-		system("pause");
 		return 1;
 	}
 
 	Solutions* solutions = new Solutions(hDeviceHandle);
-	DWORD res = solutions->TriggerUAF();
+	DWORD res = solutions->TriggerNullPointerDereference();
 
 	return res;
 }

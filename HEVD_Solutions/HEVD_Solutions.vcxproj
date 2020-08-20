@@ -138,9 +138,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AllocateNullPage.cpp" />
     <ClCompile Include="IntegerOverflow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="BufferOverflow.cpp" />
+    <ClCompile Include="NonPagedPoolOverflow.cpp" />
     <ClCompile Include="NullPointerDereference.cpp" />
     <ClCompile Include="TokenStealingShellcode.cpp" />
     <ClCompile Include="UAFNonPagedPool.cpp" />
@@ -151,6 +153,7 @@
     <ClInclude Include="random_str.h" />
     <ClInclude Include="Solutions.h" />
     <ClInclude Include="TokenStealingShellcode.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
