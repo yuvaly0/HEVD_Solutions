@@ -11,7 +11,7 @@ typedef NTSTATUS(WINAPI* pNtAllocateVirtualMemory)(
 	IN ULONG Protect
 	);
 
-NTSTATUS AllocateNullPage(DWORD dwRegionSize) {
+NTSTATUS allocate_null_page(DWORD dwRegionSize) {
 	pNtAllocateVirtualMemory ntAllocateVirtualMemory = (pNtAllocateVirtualMemory)GetProcAddress(GetModuleHandleA("ntdll.dll"),
 		"NtAllocateVirtualMemory");
 	if (!ntAllocateVirtualMemory) {

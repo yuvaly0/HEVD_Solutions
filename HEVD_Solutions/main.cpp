@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <iostream>
+#include <memory>
 
 #include "ioctal_codes.h"
 #include "utils.h"
@@ -7,8 +8,6 @@
 
 #define MAX_CHOICE 6
 #define MIN_CHOICE 1
-
-using namespace std;
 
 int main()
 {
@@ -23,16 +22,16 @@ int main()
 		NULL);
 
 	if (hDeviceHandle == INVALID_HANDLE_VALUE) {
-		cout << "[-] ERROR: invalid handle" << endl;
+		std::cout << "[-] ERROR: invalid handle" << std::endl;
 		return 1;
 	}
 	
-	printMenu();
-	int choice = GetUserChoice();
+	print_menu();
+	int choice = get_user_choice();
 	if (choice > MAX_CHOICE || choice < MIN_CHOICE) {
 		return 1;
 	}
 
-	Solutions* solutions = new Solutions(hDeviceHandle);
+	auto solutions = std::make_unique<Solutions>(hDeviceHandle);
 	return solutions->TriggerExploit(choice);
 }

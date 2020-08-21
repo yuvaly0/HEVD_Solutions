@@ -2,19 +2,17 @@
 
 #include "utils.h"
 
-using namespace std;
-
-VOID printMenu() {
-	cout << "1. Exploit buffer overflow" << endl;
-	cout << "2. Exploit integer overflow " << endl;
-	cout << "3. Exploit write what where" << endl;
-	cout << "4. Exploit null pointer dereference" << endl;
-	cout << "5. Exploit use after free in non paged pool" << endl;
-	cout << "6. Exploit non paged pool overflow" << endl;
+VOID print_menu() {
+	std::cout << "1. Exploit buffer overflow" << std::endl;
+	std::cout << "2. Exploit integer overflow " << std::endl;
+	std::cout << "3. Exploit write what where" << std::endl;
+	std::cout << "4. Exploit null pointer dereference" << std::endl;
+	std::cout << "5. Exploit use after free in non paged pool" << std::endl;
+	std::cout << "6. Exploit non paged pool overflow" << std::endl;
 }
 
-int GetUserChoice() {
+int get_user_choice() {
 	int choice = 0;
-	cin >> choice;
+	std::cin >> choice;
 	return choice;
 }
