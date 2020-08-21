@@ -5,15 +5,6 @@
 #include "ioctal_codes.h"
 #include "utils.h"
 
-typedef NTSTATUS(WINAPI* pNtAllocateVirtualMemory)(
-		IN HANDLE ProcessHandle,
-		IN OUT PVOID* BaseAddress,
-		IN ULONG_PTR ZeroBits,
-		IN OUT PSIZE_T RegionSize,
-		IN ULONG AllocationType,
-		IN ULONG Protect
-	);
-
 NTSTATUS Solutions::TriggerNullPointerDereference() {
 	LPVOID lpInBuffer = NULL;
 	DWORD dwLen = 8;
