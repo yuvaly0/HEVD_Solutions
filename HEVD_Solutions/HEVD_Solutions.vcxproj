@@ -147,6 +147,7 @@
     <ClCompile Include="NullPointerDereference.cpp" />
     <ClCompile Include="TokenStealingShellcode.cpp" />
     <ClCompile Include="UAFNonPagedPool.cpp" />
+    <ClCompile Include="UnintializedStackVariable.cpp" />
     <ClCompile Include="WriteWhatWhere.cpp" />
   </ItemGroup>
   <ItemGroup>

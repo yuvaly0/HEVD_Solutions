@@ -6,7 +6,7 @@
 #include "utils.h"
 #include "Solutions.h"
 
-#define MAX_CHOICE 6
+#define MAX_CHOICE 7
 #define MIN_CHOICE 1
 
 int main()
@@ -27,7 +27,7 @@ int main()
 	}
 	
 	print_menu();
-	int choice = get_user_choice();
+	const int choice = get_user_choice();
 	if (choice > MAX_CHOICE || choice < MIN_CHOICE) {
 		return 1;
 	}
