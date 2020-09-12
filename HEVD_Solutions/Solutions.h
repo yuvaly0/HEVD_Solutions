@@ -17,6 +17,7 @@ class Solutions {
 		NTSTATUS TriggerUAF();
 		NTSTATUS TriggerNonPagedPoolOverflow();
 		NTSTATUS TriggerUninitializedStackVariable();
+		NTSTATUS TriggerUninitializedHeapVariable();
 		NTSTATUS TriggerExploit(int choice) {
 			switch (choice) {
 			case 1:
@@ -33,6 +34,8 @@ class Solutions {
 				return this->TriggerNonPagedPoolOverflow();
 			case 7:
 				return this->TriggerUninitializedStackVariable();
+			case 8:
+				return this->TriggerUninitializedHeapVariable();
 			}
 		}
 

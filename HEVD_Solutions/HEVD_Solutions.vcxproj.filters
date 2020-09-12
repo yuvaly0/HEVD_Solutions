@@ -57,6 +57,9 @@
     <ClCompile Include="UnintializedStackVariable.cpp">
       <Filter>Source Files\exploits</Filter>
     </ClCompile>
+    <ClCompile Include="UninitializedHeapVariable.cpp">
+      <Filter>Source Files\exploits</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ioctal_codes.h">

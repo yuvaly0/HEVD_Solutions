@@ -6,7 +6,7 @@
 #include "utils.h"
 #include "Solutions.h"
 
-#define MAX_CHOICE 7
+#define MAX_CHOICE 8
 #define MIN_CHOICE 1
 
 int main()
@@ -29,6 +29,7 @@ int main()
 	print_menu();
 	const int choice = get_user_choice();
 	if (choice > MAX_CHOICE || choice < MIN_CHOICE) {
+		std::cout << "bad choice" << std::endl;
 		return 1;
 	}
 
