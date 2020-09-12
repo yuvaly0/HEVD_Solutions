@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AllocateNullPage.cpp" />
+    <ClCompile Include="DoubleFetch.cpp" />
     <ClCompile Include="IntegerOverflow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="BufferOverflow.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="WriteWhatWhere.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DoubleFetch.h" />
     <ClInclude Include="ioctal_codes.h" />
     <ClInclude Include="random_str.h" />
     <ClInclude Include="Solutions.h" />

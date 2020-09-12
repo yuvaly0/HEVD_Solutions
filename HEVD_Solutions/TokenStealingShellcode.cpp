@@ -37,7 +37,9 @@ VOID token_stealing_shellcode() {
 			ret 0x8
 	}
 
-}VOID token_stealing_shellcode_write_what_where() {
+}
+
+VOID token_stealing_shellcode_write_what_where() {
 	__asm {
 		pushad
 
