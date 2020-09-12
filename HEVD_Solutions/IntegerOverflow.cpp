@@ -3,7 +3,6 @@
 
 #include "Solutions.h"
 #include "ioctal_codes.h"
-#include "random_str.h"
 #include "utils.h"
 
 NTSTATUS Solutions::TriggerIntegerOverflow() {

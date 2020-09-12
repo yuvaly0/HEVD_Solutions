@@ -17,6 +17,7 @@ class Solutions {
 		NTSTATUS TriggerUAF();
 		NTSTATUS TriggerNonPagedPoolOverflow();
 		NTSTATUS TriggerUninitializedStackVariable();
+		NTSTATUS TriggerDoubleFetch();
 		NTSTATUS TriggerExploit(int choice) {
 			switch (choice) {
 			case 1:
