@@ -34,6 +34,8 @@ class Solutions {
 				return this->TriggerNonPagedPoolOverflow();
 			case 7:
 				return this->TriggerUninitializedStackVariable();
+			case 8:
+				return this->TriggerDoubleFetch();
 			}
 		}
 

@@ -10,6 +10,7 @@ VOID print_menu() {
 	std::cout << "5. Exploit use after free in non paged pool" << std::endl;
 	std::cout << "6. Exploit non paged pool overflow" << std::endl;
 	std::cout << "7. Exploit unintialized stack variable" << std::endl;
+	std::cout << "8. Exploit double fetch" << std::endl;
 }
 
 int get_user_choice() {
