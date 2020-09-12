@@ -3,13 +3,9 @@
 #include <thread>
 
 #include "Solutions.h"
-#include "ioctal_codes.h"
 #include "random_str.h"
 #include "DoubleFetch.h"
 #include "utils.h"
-
-HANDLE hHevd;
-BOOL shouldContinue = TRUE;
 
 NTSTATUS Solutions::TriggerDoubleFetch(){
 	hHevd = _hDeviceHandle;

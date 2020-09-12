@@ -153,11 +153,18 @@
     <ClCompile Include="WriteWhatWhere.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BufferOverflow.h" />
     <ClInclude Include="DoubleFetch.h" />
-    <ClInclude Include="ioctal_codes.h" />
+    <ClInclude Include="IntegerOverflow.h" />
+    <ClInclude Include="NonPagedPoolOverflow.h" />
+    <ClInclude Include="NullPointerDereference.h" />
     <ClInclude Include="random_str.h" />
     <ClInclude Include="Solutions.h" />
+    <ClInclude Include="UAFNonPagedPool.h" />
+    <ClInclude Include="UninitializedHeapVariable.h" />
+    <ClInclude Include="UninitializedStackVariable.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="WriteWhatWhere.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

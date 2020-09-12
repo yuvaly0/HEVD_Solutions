@@ -68,9 +68,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ioctal_codes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Solutions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -81,6 +78,30 @@
       <Filter>Header Files\utils</Filter>
     </ClInclude>
     <ClInclude Include="DoubleFetch.h">
+      <Filter>Header Files\exploits</Filter>
+    </ClInclude>
+    <ClInclude Include="NonPagedPoolOverflow.h">
+      <Filter>Header Files\exploits</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferOverflow.h">
+      <Filter>Header Files\exploits</Filter>
+    </ClInclude>
+    <ClInclude Include="IntegerOverflow.h">
+      <Filter>Header Files\exploits</Filter>
+    </ClInclude>
+    <ClInclude Include="NullPointerDereference.h">
+      <Filter>Header Files\exploits</Filter>
+    </ClInclude>
+    <ClInclude Include="UAFNonPagedPool.h">
+      <Filter>Header Files\exploits</Filter>
+    </ClInclude>
+    <ClInclude Include="UninitializedHeapVariable.h">
+      <Filter>Header Files\exploits</Filter>
+    </ClInclude>
+    <ClInclude Include="UninitializedStackVariable.h">
+      <Filter>Header Files\exploits</Filter>
+    </ClInclude>
+    <ClInclude Include="WriteWhatWhere.h">
       <Filter>Header Files\exploits</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,29 +3,8 @@
 #include "winternl.h"
 
 #include "Solutions.h"
-#include "ioctal_codes.h"
 #include "utils.h"
-
-enum class Commands {
-	AllocateUAFObject,
-	FreeUAFObject,
-	AllocateFakeObject,
-	UseUafObject
-};
-
-typedef struct UAFStruct {
-	INT callback;
-	CHAR buf[0x54];
-} UAFStruct;
-
-typedef NTSTATUS(WINAPI* NtAllocateReserveObject_t) (
-	OUT PHANDLE hObject,
-	IN POBJECT_ATTRIBUTES ObjectAttributes,
-	IN DWORD ObjectType);
-
-NTSTATUS Command(HANDLE deviceHandle, Commands operate);
-NTSTATUS SprayHeap();
-DWORD getIoctl(Commands operate);
+#include "UAFNonPagedPool.h"
 
 NTSTATUS Solutions::TriggerUAF() {
 	

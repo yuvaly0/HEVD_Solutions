@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 
+#define IOCTL_DOUBLE_FETCH 2236471
 #define OVERFLOW_OFFSET 2080
 
 DWORD WINAPI SizeChaingingThread(LPVOID userValue);
@@ -13,3 +14,6 @@ struct UserDoubleFetch {
 };
 
 typedef struct UserDoubleFetch UserDoubleFetch;
+
+HANDLE hHevd;
+BOOL shouldContinue = TRUE;

@@ -2,20 +2,9 @@
 #include <iostream>
 #include <vector>
 
-#include "ioctal_codes.h"
 #include "Solutions.h"
 #include "utils.h"
-
-#define PAYLOAD_SIZE 0x25
-#define OVERFLOW_OFFSET 0x1F8
-#define CLOSE_PROCEDURE_OFFSET 0x60
-
-std::vector<HANDLE> first;
-std::vector<HANDLE> second;
-
-NTSTATUS HeapSprayEventObject();
-PBYTE GetNonPagedPoolOverflowPayload();
-VOID CleanEventHandles();
+#include "NonPagedPoolOverflow.h"
 
 NTSTATUS Solutions::TriggerNonPagedPoolOverflow() {
 	PCHAR lpInBuffer = 0;

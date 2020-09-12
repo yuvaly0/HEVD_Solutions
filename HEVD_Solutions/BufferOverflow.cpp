@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "Solutions.h"
-#include "ioctal_codes.h"
+#include "BufferOverflow.h"
 #include "utils.h"
 
 NTSTATUS Solutions::TriggerStackBufferOverflow() {
@@ -44,7 +44,7 @@ NTSTATUS Solutions::TriggerStackBufferOverflow() {
 
 	std::cout << "[+] Talked succesfully with the driver" << std::endl;
 
-	system("cmd.exe");
-
 	HeapFree(GetProcessHeap(), 0, (LPVOID)lpInBuffer);
+
+	system("cmd.exe");
 }

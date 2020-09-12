@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "Solutions.h"
-#include "ioctal_codes.h"
+#include "IntegerOverflow.h"
 #include "utils.h"
 
 NTSTATUS Solutions::TriggerIntegerOverflow() {

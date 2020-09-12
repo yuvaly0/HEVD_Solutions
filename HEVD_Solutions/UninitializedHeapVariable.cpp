@@ -4,21 +4,9 @@
 #include <cstdlib>
 #include <string>
 
-#include "ioctal_codes.h"
 #include "Solutions.h"
 #include "utils.h"
-
-#define CONVERT_TRADEOFF 0x18
-#define ALLOCATION_KERNEL_SIZE 0xf0 - CONVERT_TRADEOFF
-#define MAXIMUM_LAL_CHUNKS 256
-
-std::vector<HANDLE> eventHandles = {};
-
-VOID helloWorld();
-VOID AllocateEventObjects();
-VOID GetObjectName(UCHAR eventName[], ULONG_PTR payload);
-VOID freeEventObject();
-VOID WaitForLookAsideInit();
+#include "UninitializedHeapVariable.h"
 
 NTSTATUS Solutions::TriggerUninitializedHeapVariable() {
 	SIZE_T dwBufSize = 4;

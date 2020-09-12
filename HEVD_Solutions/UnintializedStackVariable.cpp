@@ -1,15 +1,9 @@
-#include "Solutions.h"
-#include "ioctal_codes.h"
-#include "utils.h"
-
 #include <Windows.h>
 #include <iostream>
 
-typedef NTSTATUS(WINAPI* pNtMapUserPhysicalPages)(
-	__in PVOID VirtualAddress,
-	__in ULONG_PTR NumberOfPages,
-	__in PULONG_PTR UserPfnArray
-);
+#include "Solutions.h"
+#include "utils.h"
+#include "UninitializedStackVariable.h"
 
 NTSTATUS Solutions::TriggerUninitializedStackVariable() {
 	SIZE_T dwBufSize = sizeof(ULONG_PTR) * 1024;
