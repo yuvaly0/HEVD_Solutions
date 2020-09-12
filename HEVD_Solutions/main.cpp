@@ -6,7 +6,7 @@
 #include "utils.h"
 #include "Solutions.h"
 
-#define MAX_CHOICE 8
+#define MAX_CHOICE 9
 #define MIN_CHOICE 1
 
 int main()
