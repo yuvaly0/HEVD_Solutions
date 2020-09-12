@@ -146,6 +146,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NonPagedPoolOverflow.cpp" />
     <ClCompile Include="NullPointerDereference.cpp" />
+    <ClCompile Include="Solution.cpp" />
     <ClCompile Include="TokenStealingShellcode.cpp" />
     <ClCompile Include="UAFNonPagedPool.cpp" />
     <ClCompile Include="UninitializedHeapVariable.cpp" />

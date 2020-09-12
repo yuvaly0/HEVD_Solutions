@@ -66,6 +66,9 @@
     <ClCompile Include="DoubleFetch.cpp">
       <Filter>Source Files\exploits</Filter>
     </ClCompile>
+    <ClCompile Include="Solution.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Solutions.h">
