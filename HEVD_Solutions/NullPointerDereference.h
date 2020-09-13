@@ -1,0 +1,3 @@
+#pragma once
+
+#define IOCTL_NULL_POINTER_DEREFERENCE 2236459

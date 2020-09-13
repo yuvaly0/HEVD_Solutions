@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -139,20 +139,33 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AllocateNullPage.cpp" />
+    <ClCompile Include="DoubleFetch.cpp" />
     <ClCompile Include="IntegerOverflow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="BufferOverflow.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NonPagedPoolOverflow.cpp" />
     <ClCompile Include="NullPointerDereference.cpp" />
+    <ClCompile Include="Solution.cpp" />
     <ClCompile Include="TokenStealingShellcode.cpp" />
     <ClCompile Include="UAFNonPagedPool.cpp" />
+    <ClCompile Include="UninitializedHeapVariable.cpp" />
+    <ClCompile Include="UnintializedStackVariable.cpp" />
     <ClCompile Include="WriteWhatWhere.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ioctal_codes.h" />
+    <ClInclude Include="BufferOverflow.h" />
+    <ClInclude Include="DoubleFetch.h" />
+    <ClInclude Include="IntegerOverflow.h" />
+    <ClInclude Include="NonPagedPoolOverflow.h" />
+    <ClInclude Include="NullPointerDereference.h" />
     <ClInclude Include="random_str.h" />
     <ClInclude Include="Solutions.h" />
+    <ClInclude Include="UAFNonPagedPool.h" />
+    <ClInclude Include="UninitializedHeapVariable.h" />
+    <ClInclude Include="UninitializedStackVariable.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="WriteWhatWhere.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

