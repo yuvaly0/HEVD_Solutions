@@ -4,18 +4,21 @@
 My exploits for the vulnerable HEVD driver (version 2.0)
 
 #### Current working exploits
-* Buffer overflow
-* Interger overflow
-* Write What Where
-* Null pointer dereference
-* Use After Free - non paged pool
-* Non Paged Pool Overflow
-* Uninitialized heap variable
-* Double fetch
+- [x] Buffer overflow
+- [x] Interger overflow
+- [x] Write What Where
+- [x] Null pointer dereference
+- [x] Use After Free - non paged pool
+- [x] Non Paged Pool Overflow
+- [ ] Uninitialized stack variable
+- [x] Uninitialized heap variable
+- [x] Double fetch
 
 
 ### Resources
-* https://www.fuzzysecurity.com/ (currently down - 12/9) - writeups
-* https://pdfs.semanticscholar.org/a6c8/3300971eb38a054df94b1c1e16a4e7b220d0.pdf - kernel pool explotation on windows 7
+* https://www.fuzzysecurity.com/ - writeups
+* http://codemachine.com/article_objectheader.html - structure of pool chunk
+* https://www.gatewatcher.com/en/news/blog/windows-kernel-pool-spraying - windows kernel pool spraying
+* http://www.mista.nu/research/MANDT-kernelpool-PAPER.pdf - kernel pool explotation on windows 7
 * https://h0mbre.github.io/ - writeups
-* https://www.digitalwhisper.co.il/files/Zines/0x5A/DW90-1-ExploitKernelAndPE.pdf (Hebrew) - writeup
+* https://www.digitalwhisper.co.il/files/Zines/0x5A/DW90-1-ExploitKernelAndPE.pdf (Hebrew) - writeups
